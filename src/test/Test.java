@@ -120,11 +120,11 @@ public class Test {
         s_y = Factory.buildScalar("4");
 
         // 24. add (static)
-        Scalar sum_static = Scalar.add(s_x, s_y);
+        Scalar sum_static = Tensors.add(s_x, s_y);
         System.out.println("Scalar.add(s_x (10), s_y (4)): " + sum_static + " (s_x: " + s_x + ", s_y: " + s_y + ")");
 
         // 25. multiply (static)
-        Scalar prod_static = Scalar.multiply(s_x, s_y);
+        Scalar prod_static = Tensors.multiply(s_x, s_y);
         System.out.println("Scalar.multiply(s_x (10), s_y (4)): " + prod_static + " (s_x: " + s_x + ", s_y: " + s_y + ")");
     }
 
@@ -208,11 +208,11 @@ public class Test {
         scal = Factory.buildScalar("2");
 
         // 26. add (static)
-        Vector sum_static_v = Vector.add(v_a, v_b);
+        Vector sum_static_v = Tensors.add(v_a, v_b);
         System.out.println("Vector.add(v_a {10,20}, v_b {3,7}): " + sum_static_v + " (v_a: " + v_a + ")");
 
         // 27. multiply by scalar (static)
-        Vector prod_static_v = Vector.multiply(v_a, scal);
+        Vector prod_static_v = Tensors.multiply(v_a, scal);
         System.out.println("Vector.multiply(v_a {10,20}, scal {2}): " + prod_static_v + " (v_a: " + v_a + ")");
     }
 
@@ -364,17 +364,17 @@ public class Test {
         m_b = Factory.buildMatrix(new double[][]{{2,3},{4,5}});
 
         // 28. add (static)
-        Matrix sum_static_m = Matrix.add(m_a, m_b);
+        Matrix sum_static_m = Tensors.add(m_a, m_b);
         System.out.println("Matrix.add(m_a, m_b):\n" + sum_static_m + "\n(m_a unchanged:\n" + m_a + ")");
 
         // 29. multiply (static)
-        Matrix prod_static_m = Matrix.multiply(m_a, m_b); // I * m_b = m_b
+        Matrix prod_static_m = Tensors.multiply(m_a, m_b); // I * m_b = m_b
         System.out.println("Matrix.multiply(m_a (I), m_b):\n" + prod_static_m + "\n(m_a unchanged:\n" + m_a + ")");
 
         Matrix m1_mult = Factory.buildMatrix(new double[][]{{1,2},{3,4}}); // 2x2
         Matrix m2_mult = Factory.buildMatrix(new double[][]{{2,0,1},{0,3,0}}); // 2x3
         // Expected: [[2,6,1],[6,12,3]]
-        Matrix prod_static_m2 = Matrix.multiply(m1_mult, m2_mult);
+        Matrix prod_static_m2 = Tensors.multiply(m1_mult, m2_mult);
         System.out.println("Matrix.multiply(m1_mult (2x2), m2_mult (2x3)) (result 2x3):\n" + prod_static_m2);
     }
 
@@ -527,7 +527,7 @@ public class Test {
         try {
             Matrix inv_m = m_det_inv.inverse();
             System.out.println("Inverse of [[1,2],[3,4]]:\n" + inv_m);
-            Matrix product_check = Matrix.multiply(m_det_inv, inv_m);
+            Matrix product_check = Tensors.multiply(m_det_inv, inv_m);
             System.out.println("Original * Inverse (should be Identity):\n" + product_check);
         } catch (SingularMatrixException e) {
             System.err.println("Error calculating inverse: " + e.getMessage());
