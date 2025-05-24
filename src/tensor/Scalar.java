@@ -20,12 +20,12 @@ public interface Scalar extends Cloneable, Comparable<Scalar> {
 
     // --- Default static methods ---
     // 24. 두 스칼라 덧셈 (static, returns new)
-    static Scalar add(Scalar s1, Scalar s2) {
-        return Factory.buildScalar(s1.getValue().add(s2.getValue()).toString());
-    }
+    //static Scalar add(Scalar s1, Scalar s2) {
+        //return Factory.buildScalar(s1.getValue().add(s2.getValue()).toString());
+    //}
 
     // 25. 두 스칼라 곱셈 (static, returns new)
-    static Scalar multiply(Scalar s1, Scalar s2) {
-        return Factory.buildScalar(s1.getValue().multiply(s2.getValue()).toString());
-    }
+    //static Scalar multiply(Scalar s1, Scalar s2) {
+        //return Factory.buildScalar(s1.getValue().multiply(s2.getValue()).toString());
+    //}
 }
