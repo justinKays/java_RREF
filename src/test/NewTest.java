@@ -118,11 +118,11 @@ public class NewTest {
         s_y = Factory.buildScalar("4");  // 명세 01
 
         // 명세 24: 전달받은 두 스칼라의 덧셈이 가능하다 (static, returns new)
-        Scalar sum_static = Scalar.add(s_x, s_y); // 24 (Interface static method)
+        Scalar sum_static = Tensors.add(s_x, s_y); // 24 (Interface static method)
         System.out.println("Scalar.add(s_x (10), s_y (4)): " + sum_static + " (s_x: " + s_x + ", s_y: " + s_y + ")"); // 14s
 
         // 명세 25: 전달받은 두 스칼라의 곱셈이 가능하다 (static, returns new)
-        Scalar prod_static = Scalar.multiply(s_x, s_y); // 25 (Interface static method)
+        Scalar prod_static = Tensors.multiply(s_x, s_y); // 25 (Interface static method)
         System.out.println("Scalar.multiply(s_x (10), s_y (4)): " + prod_static + " (s_x: " + s_x + ", s_y: " + s_y + ")"); // 14s
     }
 
@@ -207,11 +207,11 @@ public class NewTest {
         scal = Factory.buildScalar("2");                // 01
 
         // 명세 26: 전달받은 두 벡터의 덧셈이 가능하다 (static, returns new)
-        Vector sum_static_v = Vector.add(v_a, v_b); // 26 (Interface static method)
+        Vector sum_static_v = Tensors.add(v_a, v_b); // 26 (Interface static method)
         System.out.println("Vector.add(v_a {10,20}, v_b {3,7}): " + sum_static_v + " (v_a: " + v_a + ")"); // 14v
 
         // 명세 27: 전달받은 스칼라와 벡터의 곱셈이 가능하다 (static, returns new)
-        Vector prod_static_v = Vector.multiply(v_a, scal); // 27 (Interface static method)
+        Vector prod_static_v = Tensors.multiply(v_a, scal); // 27 (Interface static method)
         System.out.println("Vector.multiply(v_a {10,20}, scal {2}): " + prod_static_v + " (v_a: " + v_a + ")"); // 14v
     }
 
@@ -361,16 +361,16 @@ public class NewTest {
         m_b = Factory.buildMatrix(new double[][]{{2,3},{4,5}}); // 09
 
         // 명세 28: 전달받은 두 행렬의 덧셈이 가능하다 (static, returns new)
-        Matrix sum_static_m = Matrix.add(m_a, m_b); // 28 (Interface static method)
+        Matrix sum_static_m = Tensors.add(m_a, m_b); // 28 (Interface static method)
         System.out.println("Matrix.add(m_a, m_b):\n" + sum_static_m + "\n(m_a unchanged:\n" + m_a + ")"); // 14m
 
         // 명세 29: 전달받은 두 행렬의 곱셈이 가능하다 (static, returns new)
-        Matrix prod_static_m = Matrix.multiply(m_a, m_b); // 29 (Interface static method, I * m_b)
+        Matrix prod_static_m = Tensors.multiply(m_a, m_b); // 29 (Interface static method, I * m_b)
         System.out.println("Matrix.multiply(m_a (I), m_b):\n" + prod_static_m + "\n(m_a unchanged:\n" + m_a + ")"); // 14m
 
         Matrix m1_mult = Factory.buildMatrix(new double[][]{{1,2},{3,4}}); // 09 (2x2)
         Matrix m2_mult = Factory.buildMatrix(new double[][]{{2,0,1},{0,3,0}}); // 09 (2x3)
-        Matrix prod_static_m2 = Matrix.multiply(m1_mult, m2_mult); // 29
+        Matrix prod_static_m2 = Tensors.multiply(m1_mult, m2_mult); // 29
         System.out.println("Matrix.multiply(m1_mult (2x2), m2_mult (2x3)) (result 2x3):\n" + prod_static_m2); // 14m
     }
 
@@ -514,7 +514,7 @@ public class NewTest {
         try {
             Matrix inv_m = m_det_inv.inverse(); // 54
             System.out.println("Inverse of [[1,2],[3,4]]:\n" + inv_m); // 14m
-            Matrix product_check = Matrix.multiply(m_det_inv, inv_m); // 29 (Static multiply for verification)
+            Matrix product_check = Tensors.multiply(m_det_inv, inv_m); // 29 (Static multiply for verification)
             System.out.println("Original * Inverse (should be Identity):\n" + product_check); // 14m, 43 (isIdentity for check)
         } catch (SingularMatrixException e) {
             System.err.println("Error calculating inverse: " + e.getMessage());
