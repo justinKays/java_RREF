@@ -110,90 +110,91 @@ public interface Matrix extends Cloneable {
 
     // --- Default static methods (returns new) ---
     // 28. 두 행렬 덧셈
-    static Matrix add(Matrix m1, Matrix m2) {
-        int[] size1 = m1.getSize();
-        int[] size2 = m2.getSize();
-        if (size1[0] != size2[0] || size1[1] != size2[1]) {
-            throw new DimensionMismatchException("Matrices must have the same dimensions for addition.");
-        }
-        Matrix result = m1.clone(); // Create a new matrix based on m1
-        for (int i = 0; i < size1[0]; i++) {
-            for (int j = 0; j < size1[1]; j++) {
+    //static Matrix add(Matrix m1, Matrix m2) {
+        //int[] size1 = m1.getSize();
+        //int[] size2 = m2.getSize();
+        //if (size1[0] != size2[0] || size1[1] != size2[1]) {
+            //throw new DimensionMismatchException("Matrices must have the same dimensions for addition.");
+        //}
+        //Matrix result = m1.clone(); // Create a new matrix based on m1
+        //for (int i = 0; i < size1[0]; i++) {
+            //for (int j = 0; j < size1[1]; j++) {
                 // result.setElement(i, j, Scalar.add(result.viewElement(i, j), m2.viewElement(i, j))); // clone 기반이므로
-                result.setElement(i, j, Scalar.add(m1.viewElement(i, j), m2.viewElement(i, j)));
-            }
-        }
-        return result;
-    }
+                //result.setElement(i, j, Scalar.add(m1.viewElement(i, j), m2.viewElement(i, j)));
+            //}
+        //}
+        //return result;
+    //}
 
     // 29. 두 행렬 곱셈
-    static Matrix multiply(Matrix m1, Matrix m2) {
-        int[] size1 = m1.getSize(); // m1 is rows1 x cols1
-        int[] size2 = m2.getSize(); // m2 is rows2 x cols2
-        if (size1[1] != size2[0]) {
-            throw new DimensionMismatchException("Number of columns in the first matrix must equal the number of rows in the second matrix for multiplication. m1_cols: " + size1[1] + ", m2_rows: " + size2[0]);
-        }
-        int resultRows = size1[0];
-        int resultCols = size2[1];
-        Scalar[][] resultData = new Scalar[resultRows][resultCols];
+    //static Matrix multiply(Matrix m1, Matrix m2) {
+        //int[] size1 = m1.getSize(); // m1 is rows1 x cols1
+        //int[] size2 = m2.getSize(); // m2 is rows2 x cols2
+        //if (size1[1] != size2[0]) {
+            //throw new DimensionMismatchException("Number of columns in the first matrix must equal the number of rows in the second matrix for multiplication. m1_cols: " + size1[1] + ", m2_rows: " + size2[0]);
+        //}
+        //int resultRows = size1[0];
+        //int resultCols = size2[1];
+        //Scalar[][] resultData = new Scalar[resultRows][resultCols];
 
-        for (int i = 0; i < resultRows; i++) {
-            for (int j = 0; j < resultCols; j++) {
-                Scalar sum = Factory.buildScalar("0"); // Accumulator for the dot product
-                for (int k = 0; k < size1[1]; k++) { // size1[1] is equal to size2[0]
-                    Scalar val1 = m1.viewElement(i, k);
-                    Scalar val2 = m2.viewElement(k, j);
-                    sum.add(Scalar.multiply(val1, val2)); // Scalar.multiply는 새 Scalar 반환, sum.add는 sum 자신을 변경
-                }
-                resultData[i][j] = sum;
-            }
-        }
-        return Factory.buildMatrix(resultData); // Factory.buildMatrix(Scalar[][]) 필요
-    }
+        //for (int i = 0; i < resultRows; i++) {
+            //for (int j = 0; j < resultCols; j++) {
+                //Scalar sum = Factory.buildScalar("0"); // Accumulator for the dot product
+                //int size1;
+        //for (int k = 0; k < size1[1]; k++) { // size1[1] is equal to size2[0]
+                    //Scalar val1 = m1.viewElement(i, k);
+                    //Scalar val2 = m2.viewElement(k, j);
+                    //.add(Scalar.multiply(val1, val2)); // Scalar.multiply는 새 Scalar 반환, sum.add는 sum 자신을 변경
+                //}
+                //resultData[i][j] = sum;
+            //}
+        //}
+        //return Factory.buildMatrix(resultData); // Factory.buildMatrix(Scalar[][]) 필요
+    //}
 
     // 32. static 가로 합치기
-    static Matrix hstack(Matrix m1, Matrix m2) {
-        int[] size1 = m1.getSize();
-        int[] size2 = m2.getSize();
-        if (size1[0] != size2[0]) {
-            throw new DimensionMismatchException("Matrices must have the same number of rows for horizontal stacking. m1_rows: " + size1[0] + ", m2_rows: " + size2[0]);
-        }
-        int resultRows = size1[0];
-        int resultCols = size1[1] + size2[1];
-        Scalar[][] resultData = new Scalar[resultRows][resultCols];
+    //static Matrix hstack(Matrix m1, Matrix m2) {
+        //int[] size1 = m1.getSize();
+        //int[] size2 = m2.getSize();
+        //if (size1[0] != size2[0]) {
+            //throw new DimensionMismatchException("Matrices must have the same number of rows for horizontal stacking. m1_rows: " + size1[0] + ", m2_rows: " + size2[0]);
+        //}
+        //int resultRows = size1[0];
+        //int resultCols = size1[1] + size2[1];
+        //Scalar[][] resultData = new Scalar[resultRows][resultCols];
 
-        for (int i = 0; i < resultRows; i++) {
-            for (int j = 0; j < size1[1]; j++) {
-                resultData[i][j] = m1.viewElement(i, j).clone();
-            }
-            for (int j = 0; j < size2[1]; j++) {
-                resultData[i][size1[1] + j] = m2.viewElement(i, j).clone();
-            }
-        }
-        return Factory.buildMatrix(resultData);
-    }
+        //for (int i = 0; i < resultRows; i++) {
+            //for (int j = 0; j < size1[1]; j++) {
+                //resultData[i][j] = m1.viewElement(i, j).clone();
+            //}
+            //for (int j = 0; j < size2[1]; j++) {
+                //resultData[i][size1[1] + j] = m2.viewElement(i, j).clone();
+            //}
+        //}
+        //return Factory.buildMatrix(resultData);
+    //}
 
     // 33. static 세로 합치기
-    static Matrix vstack(Matrix m1, Matrix m2) {
-        int[] size1 = m1.getSize();
-        int[] size2 = m2.getSize();
-        if (size1[1] != size2[1]) {
-            throw new DimensionMismatchException("Matrices must have the same number of columns for vertical stacking. m1_cols: " + size1[1] + ", m2_cols: " + size2[1]);
-        }
-        int resultRows = size1[0] + size2[0];
-        int resultCols = size1[1];
-        Scalar[][] resultData = new Scalar[resultRows][resultCols];
+    //static Matrix vstack(Matrix m1, Matrix m2) {
+        //int[] size1 = m1.getSize();
+        //int[] size2 = m2.getSize();
+        //if (size1[1] != size2[1]) {
+            //throw new DimensionMismatchException("Matrices must have the same number of columns for vertical stacking. m1_cols: " + size1[1] + ", m2_cols: " + size2[1]);
+        //}
+        //int resultRows = size1[0] + size2[0];
+        //int resultCols = size1[1];
+        //Scalar[][] resultData = new Scalar[resultRows][resultCols];
 
-        for (int i = 0; i < size1[0]; i++) {
-            for (int j = 0; j < resultCols; j++) {
-                resultData[i][j] = m1.viewElement(i, j).clone();
-            }
-        }
-        for (int i = 0; i < size2[0]; i++) {
-            for (int j = 0; j < resultCols; j++) {
-                resultData[size1[0] + i][j] = m2.viewElement(i, j).clone();
-            }
-        }
-        return Factory.buildMatrix(resultData);
-    }
+        //for (int i = 0; i < size1[0]; i++) {
+            //for (int j = 0; j < resultCols; j++) {
+                //resultData[i][j] = m1.viewElement(i, j).clone();
+            //}
+        //}
+        //for (int i = 0; i < size2[0]; i++) {
+            //for (int j = 0; j < resultCols; j++) {
+                //resultData[size1[0] + i][j] = m2.viewElement(i, j).clone();
+            //}
+        //}
+        //return Factory.buildMatrix(resultData);
+    //}
 }
