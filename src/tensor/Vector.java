@@ -33,25 +33,25 @@ public interface Vector extends Cloneable {
 
     // --- Default static methods (returns new) ---
     // 26. 두 벡터 덧셈
-    static Vector add(Vector v1, Vector v2) {
-        if (v1.getSize() != v2.getSize()) {
-            throw new DimensionMismatchException("Vectors must have the same size for addition. v1 size: " + v1.getSize() + ", v2 size: " + v2.getSize());
-        }
-        Vector result = v1.clone(); // 새 벡터 생성 기반으로
-        for (int i = 0; i < result.getSize(); i++) {
+    //static Vector add(Vector v1, Vector v2) {
+      //  if (v1.getSize() != v2.getSize()) {
+        //    throw new DimensionMismatchException("Vectors must have the same size for addition. v1 size: " + v1.getSize() + ", v2 size: " + v2.getSize());
+        //}
+        //Vector result = v1.clone(); // 새 벡터 생성 기반으로
+        //for (int i = 0; i < result.getSize(); i++) {
             // result.setElement(i, Scalar.add(result.viewElement(i), v2.viewElement(i))); // clone을 했으므로 v1의 값을 사용
-            result.setElement(i, Scalar.add(v1.viewElement(i), v2.viewElement(i)));
-        }
-        return result;
-    }
+            //result.setElement(i, Scalar.add(v1.viewElement(i), v2.viewElement(i)));
+        //}
+        //return result;
+    //}
 
     // 27. 스칼라와 벡터 곱셈
-    static Vector multiply(Vector v, Scalar s) {
-        Vector result = v.clone();
-        for (int i = 0; i < result.getSize(); i++) {
+    //static Vector multiply(Vector v, Scalar s) {
+        //Vector result = v.clone();
+        //for (int i = 0; i < result.getSize(); i++) {
             // result.setElement(i, Scalar.multiply(result.viewElement(i), s)); // clone을 했으므로 v의 값을 사용
-            result.setElement(i, Scalar.multiply(v.viewElement(i), s));
-        }
-        return result;
-    }
+            //result.setElement(i, Scalar.multiply(v.viewElement(i), s));
+       // }
+        //return result;
+    //}
 }
