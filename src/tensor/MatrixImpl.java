@@ -352,7 +352,7 @@ public class MatrixImpl implements Matrix {
                     // term.multiply(other.viewElement(k,j));
                     // sum.add(term);
                     // 또는 static 메소드 사용:
-                    sum.add(Scalar.multiply(this.viewElement(i, k), other.viewElement(k, j)));
+                    sum.add(Tensors.multiply(this.viewElement(i, k), other.viewElement(k, j)));
                 }
                 resultData[i][j] = sum;
             }
@@ -378,14 +378,14 @@ public class MatrixImpl implements Matrix {
     @Override
     public Matrix hstack(Matrix other) {
         if (other == null) throw new IllegalArgumentException("Other matrix for hstack cannot be null.");
-        return Matrix.hstack(this, other); // static 메소드 활용
+        return Tensors.hstack(this, other); // static 메소드 활용
     }
 
     // 33. 세로 합치기 (non-static, returns new matrix)
     @Override
     public Matrix vstack(Matrix other) {
         if (other == null) throw new IllegalArgumentException("Other matrix for vstack cannot be null.");
-        return Matrix.vstack(this, other); // static 메소드 활용
+        return Tensors.vstack(this, other); // static 메소드 활용
     }
 
 
@@ -848,9 +848,9 @@ public class MatrixImpl implements Matrix {
             Scalar c = this.viewElement(1, 0);
             Scalar d = this.viewElement(1, 1);
             // (a*d) - (b*c)
-            Scalar ad = Scalar.multiply(a.clone(), d.clone());
-            Scalar bc = Scalar.multiply(b.clone(), c.clone());
-            return Scalar.add(ad, bc.multiply(Factory.buildScalar("-1"))); // ad - bc
+            Scalar ad = Tensors.multiply(a.clone(), d.clone());
+            Scalar bc = Tensors.multiply(b.clone(), c.clone());
+            return Tensors.add(ad, bc.multiply(Factory.buildScalar("-1"))); // ad - bc
         }
 
         // Laplace expansion (cofactor expansion)
