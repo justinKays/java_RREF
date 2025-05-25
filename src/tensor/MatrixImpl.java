@@ -148,7 +148,7 @@ public class MatrixImpl implements Matrix {
     }
 
     // List<Vector>를 직접 받는 생성자 (내부용, clone 등에서 사용)
-    MatrixImpl(List<Vector> rows, boolean deepCopy) { // deepCopy 플래그 추가
+    MatrixImpl(List<Vector> rows) { // deepCopy 플래그 추가
         if (rows == null) throw new IllegalArgumentException("Row list cannot be null.");
         // 행별로 열 개수가 동일한지 검증 필요
         if (!rows.isEmpty()) {
@@ -159,14 +159,9 @@ public class MatrixImpl implements Matrix {
                 }
             }
         }
-
-        if (deepCopy) {
-            this.matrixRows = new ArrayList<>(rows.size());
-            for (Vector rowVec : rows) {
-                this.matrixRows.add(rowVec.clone()); // 각 Vector도 복제
-            }
-        } else {
-            this.matrixRows = new ArrayList<>(rows); // 얕은 복사 (내부적으로 생성된 Vector 리스트를 사용할 때)
+        this.matrixRows = new ArrayList<>(rows.size());
+        for (Vector rowVec : rows) {
+            this.matrixRows.add(rowVec.clone()); // 각 Vector도 복제
         }
     }
 
