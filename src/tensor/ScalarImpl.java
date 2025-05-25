@@ -79,15 +79,7 @@ class ScalarImpl implements Scalar {
     // 17s. 객체 복제 (deep copy)
     @Override
     public Scalar clone() {
-        try {
-            // BigDecimal is immutable, so direct assignment is fine for a deep copy of its state.
-            ScalarImpl cloned = (ScalarImpl) super.clone(); // 기본적으로 얕은 복사지만, BigDecimal이 불변이라 문제 없음
-            // 만약 BigDecimal이 가변 객체였다면 cloned.scalar = new BigDecimal(this.scalar.toString()); 와 같이 새로 생성해야함
-            return new ScalarImpl(this.scalar); // 새 객체를 생성하여 BigDecimal 값을 복사하는 것이 더 명확
-        } catch (CloneNotSupportedException e) {
-            // This should not happen since we are Cloneable
-            throw new AssertionError(e);
-        }
+        return new ScalarImpl(this.scalar); // 새 객체를 생성하여 BigDecimal 값을 복사하는 것이 더 명확
     }
 
     // 18. 스칼라 덧셈 (non-static, modifies self)
