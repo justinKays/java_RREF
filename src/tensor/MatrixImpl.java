@@ -718,15 +718,12 @@ public class MatrixImpl implements Matrix {
 
         if (rowCount == 0 || columnCount == 0) return tempMatrix; // 빈 행렬은 그대로
 
-        Scalar zero = Factory.buildScalar("0");
-        Scalar one = Factory.buildScalar("1");
-
         for (int r = 0; r < rowCount; r++) {
             if (lead >= columnCount) {
                 break;
             }
             int i = r;
-            while (tempMatrix.viewElement(i, lead).equals(zero)) {
+            while (tempMatrix.viewElement(i, lead).isZero()) {
                 i++;
                 if (i == rowCount) {
                     i = r;
@@ -740,14 +737,12 @@ public class MatrixImpl implements Matrix {
             tempMatrix.swapRows(i, r);
 
             Scalar pivot = tempMatrix.viewElement(r, lead);
-            if (!pivot.equals(zero) && !pivot.equals(one)) {
+            if (!pivot.isZero() && !pivot.isOne()) {
                 // 행을 pivot으로 나누기: row[r] = row[r] / pivot
                 // Scalar inversePivot = one.clone().divide(pivot); // Scalar에 divide 메소드 필요
                 // 임시: BigDecimal 직접 사용
-                BigDecimal pivotValue = pivot.getValue();
-                if (pivotValue.compareTo(BigDecimal.ZERO) == 0) throw new SingularMatrixException("Pivot is zero, cannot divide by zero during RREF.");
 
-                Scalar inversePivot = Factory.buildScalar(BigDecimal.ONE.divide(pivotValue, 10, RoundingMode.HALF_UP).toString()); // 정밀도 문제 주의
+                Scalar inversePivot = Factory.buildScalar(BigDecimal.ONE.divide(pivot.getValue(), 10, RoundingMode.HALF_UP).toString()); // 정밀도 문제 주의
                 tempMatrix.multiplyRow(r, inversePivot);
             }
 
@@ -777,8 +772,8 @@ public class MatrixImpl implements Matrix {
         if (rows == 0) return true; // 0xN 행렬은 RREF (자명하게)
         if (cols == 0 && rows > 0) return true; // Mx0 행렬도 RREF (자명하게)
 
-        Scalar zero = Factory.buildScalar("0");
-        Scalar one = Factory.buildScalar("1");
+//        Scalar zero = Factory.buildScalar("0");
+//        Scalar one = Factory.buildScalar("1");
         int lead = -1; // 이전 행의 선행 1의 열 인덱스
 
         for (int r = 0; r < rows; r++) {
@@ -790,8 +785,8 @@ public class MatrixImpl implements Matrix {
 
             for (int c = 0; c < cols; c++) {
                 Scalar currentElement = viewElement(r, c);
-                if (!currentElement.equals(zero)) { // 첫 non-zero 원소 발견
-                    if (!currentElement.equals(one)) return false; // 조건 1 위반 (피봇이 1이 아님)
+                if (!currentElement.isZero()) { // 첫 non-zero 원소 발견
+                    if (!currentElement.isOne()) return false; // 조건 1 위반 (피봇이 1이 아님)
                     currentLead = c; // 현재 행의 피봇 열 인덱스
                     break;
                 }
@@ -803,7 +798,7 @@ public class MatrixImpl implements Matrix {
 
                 // 조건 3 검사: 피봇 열의 다른 모든 원소가 0인지
                 for (int i = 0; i < rows; i++) {
-                    if (i != r && !viewElement(i, currentLead).equals(zero)) {
+                    if (i != r && !viewElement(i, currentLead).isZero()) {
                         return false; // 조건 3 위반
                     }
                 }
@@ -811,7 +806,7 @@ public class MatrixImpl implements Matrix {
                 // 이 행 아래의 모든 행도 0이어야 함
                 for (int next_r = r + 1; next_r < rows; next_r++) {
                     for (int c = 0; c < cols; c++) {
-                        if (!viewElement(next_r, c).equals(zero)) return false; // 0행 아래 non-zero 행 발견
+                        if (!viewElement(next_r, c).isZero()) return false; // 0행 아래 non-zero 행 발견
                     }
                 }
                 // 현재 행부터 맨 아래까지 모두 0이면 RREF 조건 만족하며 종료
