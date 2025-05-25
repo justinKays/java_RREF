@@ -16,6 +16,9 @@ class ScalarImpl implements Scalar {
     }
 
     ScalarImpl(BigDecimal bd) { // BigDecimal을 직접 받는 생성자 추가 (내부 사용 편의)
+        if(bd == null) {
+            throw new IllegalArgumentException("Value cannot be null.");
+        }
         this.scalar = bd;
     }
 
