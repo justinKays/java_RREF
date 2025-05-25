@@ -8,6 +8,9 @@ class ScalarImpl implements Scalar {
 
     // 01
     ScalarImpl(String ss) {
+        if (ss == null) {
+            throw new IllegalArgumentException("Value cannot be null.");
+        }
         try {
             this.scalar = new BigDecimal(ss);
         } catch (NumberFormatException e) {
