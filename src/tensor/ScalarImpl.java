@@ -105,4 +105,10 @@ class ScalarImpl implements Scalar {
         this.scalar = this.scalar.multiply(other.getValue());
         return this;
     }
+
+    // Helper for triangular checks:
+    @Override
+    public boolean isZero() {
+        return this.getValue().compareTo(BigDecimal.ZERO) == 0;
+    }
 }

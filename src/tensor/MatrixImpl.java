@@ -516,11 +516,6 @@ public class MatrixImpl implements Matrix {
         return size[0] == size[1]; // 0x0도 정사각으로 간주 가능
     }
 
-    // Helper for triangular checks:
-    private boolean isZero(Scalar s) {
-        return s.getValue().compareTo(BigDecimal.ZERO) == 0;
-    }
-
     // 41. 상삼각 행렬
     @Override
     public boolean isUpperTriangular() {
@@ -533,7 +528,7 @@ public class MatrixImpl implements Matrix {
 
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < i; j++) { // 주 대각선 아래 요소 (row > col)
-                if (!isZero(this.viewElement(i, j))) {
+                if (!this.viewElement(i, j).isZero()) {
                     return false;
                 }
             }
@@ -553,7 +548,7 @@ public class MatrixImpl implements Matrix {
 
         for (int i = 0; i < size[0]; i++) {
             for (int j = i + 1; j < size[1]; j++) { // 주 대각선 위 요소 (col > row)
-                if (!isZero(this.viewElement(i, j))) {
+                if (this.viewElement(i, j).isZero()) {
                     return false;
                 }
             }
@@ -574,7 +569,7 @@ public class MatrixImpl implements Matrix {
                 if (i == j) { // Diagonal
                     if (element.getValue().compareTo(BigDecimal.ONE) != 0) return false;
                 } else { // Off-diagonal
-                    if (!isZero(element)) return false;
+                    if (!element.isZero()) return false;
                 }
             }
         }
@@ -589,7 +584,7 @@ public class MatrixImpl implements Matrix {
 
         for (int i = 0; i < size[0]; i++) {
             for (int j = 0; j < size[1]; j++) {
-                if (!isZero(this.viewElement(i, j))) {
+                if (!this.viewElement(i, j).isZero()) {
                     return false;
                 }
             }

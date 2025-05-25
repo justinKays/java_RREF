@@ -18,6 +18,8 @@ public interface Scalar extends Cloneable, Comparable<Scalar> {
     // 19. 스칼라 곱셈 (non-static, modifies self)
     Scalar multiply(Scalar other);
 
+    public boolean isZero();
+
     // --- Default static methods ---
     // 24. 두 스칼라 덧셈 (static, returns new)
     //static Scalar add(Scalar s1, Scalar s2) {
