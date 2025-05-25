@@ -111,4 +111,10 @@ class ScalarImpl implements Scalar {
     public boolean isZero() {
         return this.getValue().compareTo(BigDecimal.ZERO) == 0;
     }
+
+    // Helper for triangular checks:
+    @Override
+    public boolean isOne() {
+        return this.getValue().compareTo(BigDecimal.ONE) == 0;
+    }
 }

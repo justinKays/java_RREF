@@ -20,6 +20,8 @@ public interface Scalar extends Cloneable, Comparable<Scalar> {
 
     public boolean isZero();
 
+    public boolean isOne();
+
     // --- Default static methods ---
     // 24. 두 스칼라 덧셈 (static, returns new)
     //static Scalar add(Scalar s1, Scalar s2) {
