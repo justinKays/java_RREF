@@ -165,6 +165,10 @@ public class MatrixImpl implements Matrix {
         }
     }
 
+    @Override
+    public List<Vector> getVectors(){
+        return this.matrixRows;
+    }
 
     // 11m. 특정 위치 요소 지정
     @Override
@@ -303,64 +307,73 @@ public class MatrixImpl implements Matrix {
 
     // 23. 행렬 곱셈 (this = this * other)
     @Override
-    public Matrix multiply(Matrix other) {
+    public Matrix multiplyLeft(Matrix other) {
         if (other == null) throw new IllegalArgumentException("Other matrix cannot be null.");
-        int[] thisSize = this.getSize(); // this is R1 x C1
-        int[] otherSize = other.getSize(); // other is R2 x C2
 
-        if (thisSize[1] != otherSize[0]) {
-            throw new DimensionMismatchException(
-                    "Number of columns in this matrix (" + thisSize[1] +
-                            ") must equal the number of rows in the other matrix (" + otherSize[0] + ") for multiplication."
-            );
-        }
+        this.matrixRows = Tensors.multiply(other, this).getVectors();
+        return this;
+//        int[] thisSize = this.getSize(); // this is R1 x C1
+//        int[] otherSize = other.getSize(); // other is R2 x C2
+//
+//        if (thisSize[1] != otherSize[0]) {
+//            throw new DimensionMismatchException(
+//                    "Number of columns in this matrix (" + thisSize[1] +
+//                            ") must equal the number of rows in the other matrix (" + otherSize[0] + ") for multiplication."
+//            );
+//        }
+//
+//        // 결과 행렬의 크기는 R1 x C2
+//        int resultRows = thisSize[0];
+//        int resultCols = otherSize[1];
+//
+//        if (resultRows == 0 || resultCols == 0) { // 결과가 0xN 또는 Mx0 행렬인 경우
+//            this.matrixRows = new ArrayList<>();
+//            if (resultRows > 0) { // Mx0 결과 (열이 0개)
+//                for (int i = 0; i < resultRows; i++) {
+//                    this.matrixRows.add(Factory.buildVector(new Scalar[0])); // 빈 벡터 추가
+//                }
+//            }
+//            // 만약 resultRows가 0이면 this.matrixRows는 그냥 빈 리스트 (0xN 행렬)
+//            return this;
+//        }
+//
+//
+//        Scalar[][] resultData = new Scalar[resultRows][resultCols];
+//
+//        for (int i = 0; i < resultRows; i++) {
+//            for (int j = 0; j < resultCols; j++) {
+//                Scalar sum = Factory.buildScalar("0");
+//                for (int k = 0; k < thisSize[1]; k++) { // thisSize[1] == otherSize[0]
+//                    // sum = sum + this(i,k) * other(k,j)
+//                    // Scalar.add 와 Scalar.multiply 는 새 객체를 반환하지 않고 자신을 수정함.
+//                    // 따라서 다음과 같이 사용:
+//                    // Scalar term = this.viewElement(i,k).clone(); // 원본 보존 위해 복제
+//                    // term.multiply(other.viewElement(k,j));
+//                    // sum.add(term);
+//                    // 또는 static 메소드 사용:
+//                    sum.add(Tensors.multiply(this.viewElement(i, k), other.viewElement(k, j)));
+//                }
+//                resultData[i][j] = sum;
+//            }
+//        }
+//        // this의 내용을 resultData로 교체
+//        // MatrixImpl(Scalar[][]) 생성자를 호출하여 새 객체를 만들고 그 내부 데이터로 교체하는 방식은
+//        // this 참조 자체를 바꿀 수 없으므로, this의 내부 List<Vector>를 새로 구성해야 함.
+//        List<Vector> newRows = new ArrayList<>(resultRows);
+//        for (int i = 0; i < resultRows; i++) {
+//            List<Scalar> rowScalars = new ArrayList<>(resultCols);
+//            for (int j = 0; j < resultCols; j++) {
+//                rowScalars.add(resultData[i][j]);
+//            }
+//            newRows.add(Factory.buildVector(rowScalars)); // Factory.buildVector(List<Scalar>) 필요
+//        }
+//        this.matrixRows = newRows;
+//        return this;
+    }
 
-        // 결과 행렬의 크기는 R1 x C2
-        int resultRows = thisSize[0];
-        int resultCols = otherSize[1];
-
-        if (resultRows == 0 || resultCols == 0) { // 결과가 0xN 또는 Mx0 행렬인 경우
-            this.matrixRows = new ArrayList<>();
-            if (resultRows > 0) { // Mx0 결과 (열이 0개)
-                for (int i = 0; i < resultRows; i++) {
-                    this.matrixRows.add(Factory.buildVector(new Scalar[0])); // 빈 벡터 추가
-                }
-            }
-            // 만약 resultRows가 0이면 this.matrixRows는 그냥 빈 리스트 (0xN 행렬)
-            return this;
-        }
-
-
-        Scalar[][] resultData = new Scalar[resultRows][resultCols];
-
-        for (int i = 0; i < resultRows; i++) {
-            for (int j = 0; j < resultCols; j++) {
-                Scalar sum = Factory.buildScalar("0");
-                for (int k = 0; k < thisSize[1]; k++) { // thisSize[1] == otherSize[0]
-                    // sum = sum + this(i,k) * other(k,j)
-                    // Scalar.add 와 Scalar.multiply 는 새 객체를 반환하지 않고 자신을 수정함.
-                    // 따라서 다음과 같이 사용:
-                    // Scalar term = this.viewElement(i,k).clone(); // 원본 보존 위해 복제
-                    // term.multiply(other.viewElement(k,j));
-                    // sum.add(term);
-                    // 또는 static 메소드 사용:
-                    sum.add(Tensors.multiply(this.viewElement(i, k), other.viewElement(k, j)));
-                }
-                resultData[i][j] = sum;
-            }
-        }
-        // this의 내용을 resultData로 교체
-        // MatrixImpl(Scalar[][]) 생성자를 호출하여 새 객체를 만들고 그 내부 데이터로 교체하는 방식은
-        // this 참조 자체를 바꿀 수 없으므로, this의 내부 List<Vector>를 새로 구성해야 함.
-        List<Vector> newRows = new ArrayList<>(resultRows);
-        for (int i = 0; i < resultRows; i++) {
-            List<Scalar> rowScalars = new ArrayList<>(resultCols);
-            for (int j = 0; j < resultCols; j++) {
-                rowScalars.add(resultData[i][j]);
-            }
-            newRows.add(Factory.buildVector(rowScalars)); // Factory.buildVector(List<Scalar>) 필요
-        }
-        this.matrixRows = newRows;
+    @Override
+    public Matrix multiplyRight(Matrix other){
+        this.matrixRows = Tensors.multiply(this, other).getVectors();
         return this;
     }
 
