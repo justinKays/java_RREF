@@ -97,9 +97,7 @@ public class MatrixImpl implements Matrix {
     // 09: 2차원 double 배열로부터 생성
     MatrixImpl(double[][] arr) {
         if (arr == null || arr.length == 0) {
-            // 빈 행렬 (0x0 또는 0xN) 처리
-            this.matrixRows = new ArrayList<>();
-            return;
+            throw new IllegalArgumentException("Size 0 not allowed");
         }
         int numRows = arr.length;
         int numCols = (arr[0] == null) ? 0 : arr[0].length; // 첫 행 기준으로 열 개수 결정
@@ -116,8 +114,7 @@ public class MatrixImpl implements Matrix {
     // Scalar[][] 로부터 생성 (내부 및 Factory용)
     MatrixImpl(Scalar[][] data) {
         if (data == null || data.length == 0) {
-            this.matrixRows = new ArrayList<>(); // 0xM 행렬
-            return;
+            throw new IllegalArgumentException("Size 0 not allowed");
         }
         int numRows = data.length;
         int numCols = (data[0] == null) ? 0 : data[0].length;
