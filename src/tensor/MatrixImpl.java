@@ -877,7 +877,7 @@ public class MatrixImpl implements Matrix {
         }
 
         Scalar det = this.determinant();
-        if (det.getValue().compareTo(BigDecimal.ZERO) == 0) {
+        if (det.isZero()) {
             throw new SingularMatrixException("Matrix is singular, inverse does not exist (determinant is zero).");
         }
 
