@@ -221,7 +221,7 @@ public class MatrixImpl implements Matrix {
                 sb.append("\n");
             }
         }
-        sb.append("]");
+        sb.append("]\n");
         return sb.toString();
     }
 
@@ -553,7 +553,7 @@ public class MatrixImpl implements Matrix {
 
         for (int i = 0; i < size[0]; i++) {
             for (int j = i + 1; j < size[1]; j++) { // 주 대각선 위 요소 (col > row)
-                if (this.viewElement(i, j).isZero()) {
+                if (!this.viewElement(i, j).isZero()) {
                     return false;
                 }
             }
