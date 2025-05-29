@@ -923,23 +923,4 @@ public class MatrixImpl implements Matrix {
         }
         return adjMatrix;
     }
-
-    // 추가: getMatrix() 에 대한 명세가 있었음. List<Vector> 반환.
-// Matrix 인터페이스에서는 getRows() 등으로 변경 제안했었으나, 원래 명세대로라면...
-// public List<Vector> getMatrix() { return Collections.unmodifiableList(this.matrixRows); }
-// 하지만, 이렇게하면 MatrixImpl 내부 구조가 노출됨.
-// MatrixImpl 내에서만 사용하거나, 꼭 필요하다면 복제본을 반환하는 것이 안전.
-// 여기서는 인터페이스에 해당 메소드를 명시적으로 추가하지 않았으므로 구현 생략.
-// 만약 Matrix.java에 `List<Vector> getRawRows();` 와 같이 명시되었다면 구현.
-// 기존 코드의 Matrix.java에는 `List<Vector> getMatrix()`가 있었으므로, 이를 구현한다면:
-    public List<Vector> getMatrix(){ // 원래 Matrix.java 인터페이스에 있던 메소드
-        // 캡슐화를 위해 방어적 복사
-        List<Vector> defensiveCopy = new ArrayList<>(this.matrixRows.size());
-        for(Vector v : this.matrixRows) {
-            defensiveCopy.add(v.clone());
-        }
-        return defensiveCopy;
-        // 또는 불변 뷰: return Collections.unmodifiableList(this.matrixRows);
-        // (이 경우 내부 Vector 객체가 변경될 가능성은 여전히 있음. Vector.clone()이 더 안전)
-    }
 }
