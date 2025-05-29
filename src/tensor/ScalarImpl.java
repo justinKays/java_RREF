@@ -95,8 +95,7 @@ class ScalarImpl implements Scalar {
     @Override
     public Scalar multiply(Scalar other) {
         if (other == null) throw new IllegalArgumentException("Other scalar cannot be null for multiplication.");
-        MathContext threshHold = new MathContext(2);
-        this.scalar = this.scalar.multiply(other.getValue(), threshHold);
+        this.scalar = this.scalar.multiply(other.getValue());
         return this;
     }
 
