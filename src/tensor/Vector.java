@@ -31,6 +31,8 @@ public interface Vector extends Cloneable {
     // 21. 스칼라 곱셈
     Vector multiply(Scalar scalar);
 
+    public String toString(int scale);
+
     // --- Default static methods (returns new) ---
     // 26. 두 벡터 덧셈
     //static Vector add(Vector v1, Vector v2) {

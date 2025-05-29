@@ -22,6 +22,8 @@ public interface Scalar extends Comparable<Scalar> {
 
     public boolean isOne();
 
+    public String toString(int scale);
+
     // --- Default static methods ---
     // 24. 두 스칼라 덧셈 (static, returns new)
     //static Scalar add(Scalar s1, Scalar s2) {

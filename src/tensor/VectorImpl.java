@@ -94,6 +94,20 @@ public class VectorImpl implements Vector {
                 .collect(Collectors.joining(", ", "[", "]"));
     }
 
+    @Override
+    public String toString(int scale) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < vector.size(); i++) {
+            sb.append(vector.get(i).toString(scale));
+            if (i < vector.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
     // 15v. 객체의 동등성 판단
     @Override
     public boolean equals(Object obj) {

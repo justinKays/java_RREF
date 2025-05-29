@@ -55,6 +55,11 @@ class ScalarImpl implements Scalar {
         return scalar.toPlainString(); // 공학적 표기법 대신 일반적인 숫자 문자열로 표시
     }
 
+    @Override
+    public String toString(int scale) {
+        return scalar.setScale(Math.min(scale, 10), RoundingMode.HALF_UP).toPlainString(); // 공학적 표기법 대신 일반적인 숫자 문자열로 표시
+    }
+
     // 15s
     @Override
     public boolean equals(Object obj) {
