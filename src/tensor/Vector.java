@@ -12,7 +12,7 @@ public interface Vector extends Cloneable {
     Scalar viewElement(int index);
 
     // 13. 차원(길이) 조회
-    int getSize(); // 명칭 변경 viewSize -> getSize
+    int getSize();
 
     // 17v. 객체 복제
     Vector clone();
