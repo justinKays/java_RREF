@@ -14,12 +14,6 @@ public interface Vector extends Cloneable {
     // 13. 차원(길이) 조회
     int getSize(); // 명칭 변경 viewSize -> getSize
 
-    // 30. n-차원 벡터 객체는 자신으로부터 1xn 행렬을 생성하여 반환 (명세는 nx1 이지만 통상 row vector는 1xn)
-    Matrix toRowMatrix();
-
-    // 31. n-차원 벡터 객체는 자신으로부터 nx1 행렬을 생성하여 반환 (명세는 1xn 이지만 통상 col vector는 nx1)
-    Matrix toColMatrix();
-
     // 17v. 객체 복제
     Vector clone();
 
@@ -28,6 +22,12 @@ public interface Vector extends Cloneable {
 
     // 21. 스칼라 곱셈
     Vector multiply(Scalar scalar);
+
+    // 30. n-차원 벡터 객체는 자신으로부터 1xn 행렬을 생성하여 반환 (명세는 nx1 이지만 통상 row vector는 1xn)
+    Matrix toRowMatrix();
+
+    // 31. n-차원 벡터 객체는 자신으로부터 nx1 행렬을 생성하여 반환 (명세는 1xn 이지만 통상 col vector는 nx1)
+    Matrix toColMatrix();
 
     // 아래는 헬퍼 함수
     // Obj 클래스의 toString과 별개. 특정 scale로 스트링 변환
